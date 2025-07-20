@@ -1,0 +1,1 @@
+uvicorn main:app --host localhost --port 8001 --workers 2 --reload
