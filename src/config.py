@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file='.env',
         extra='ignore'
-    )
+    ) # to modify our configuration to read from the .env
 
 Config = Settings()
 

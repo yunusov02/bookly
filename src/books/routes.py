@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, status, Depends
 from fastapi.exceptions import HTTPException
 
-from .schemas import Book, BookUpdate, BookCreateModel
+from .schemas import Book, BookUpdateModel, BookCreateModel, BookReadModel
 from .book_data import books
 from .service import BookService
 from ..db.main import get_session
@@ -30,14 +30,14 @@ async def get_book(book_uid: str, session: AsyncSession = Depends(get_session)):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book Not found")
 
 
-@book_router.post("/", status_code=status.HTTP_201_CREATED, response_class=Book)
+@book_router.post("/", status_code=status.HTTP_201_CREATED, response_model=BookReadModel)
 async def create_book(book_data: BookCreateModel, session: AsyncSession = Depends(get_session)):
     new_book = await book_service.create_book(book_data, session)
     return new_book
 
 
 @book_router.patch("/{book_uid}")
-async def update_book(book_uid: str, book_update_data: BookUpdate, session: AsyncSession = Depends(get_session)):
+async def update_book(book_uid: str, book_update_data: BookUpdateModel, session: AsyncSession = Depends(get_session)):
     updated_book = await book_service.update_book(book_uid, book_update_data, session)
     
     if updated_book:

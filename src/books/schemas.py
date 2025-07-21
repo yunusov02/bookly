@@ -1,21 +1,20 @@
+import uuid
+from datetime import date, datetime
+from typing import List
+
 from pydantic import BaseModel
 
+
 class Book(BaseModel):
-    id: int
+    uid: uuid.UUID
     title: str
     author: str
     publisher: str
-    published_date: str
+    published_date: date
     page_count: int
     language: str
-
-
-class BookUpdate(BaseModel):
-    title: str
-    author: str
-    publisher: str
-    page_count: int
-    language: str
+    created_at: datetime
+    update_at: datetime
 
 
 class BookCreateModel(BaseModel):
@@ -25,3 +24,26 @@ class BookCreateModel(BaseModel):
     published_date: str
     page_count: int
     language: str
+
+
+class BookUpdateModel(BaseModel):
+    title: str
+    author: str
+    publisher: str
+    page_count: int
+    language: str
+
+
+class BookReadModel(BaseModel):
+    uid: uuid.UUID
+    title: str
+    author: str
+    publisher: str
+    published_date: date
+    page_count: int
+    language: str
+    created_at: datetime
+    edited_at: datetime
+
+    class Config:
+        orm_mode = True
